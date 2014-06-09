@@ -1,11 +1,10 @@
 # Maintainer: Stefaan Michielsen <stefaan@easics.be>
 pkgname=('nvc-git')
-pkgbase=BASE
 pkgver=1
 pkgrel=1
 epoch=
 pkgdesc=""
-arch=('x86-64', 'x86')
+arch=('i686', 'x86_64')
 url=""
 license=('unknown')
 groups=()
@@ -23,20 +22,21 @@ source=('nvc::git+https://github.com/nickg/nvc.git')
 noextract=()
 md5sums=()
 
-#prepare() {
-#	cd "$srcdir/$pkgname-$pkgver"
-#	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
-#}
+prepare() {
+	cd "$srcdir/$pkgname-$pkgver"
+        yes > ./tools/fetch-ieee.sh 
+        mkdir build && cd build
+}
 
 build() {
 	cd "$srcdir/$pkgbase-$pkgver"
+        cd build
 	./configure --prefix=/usr
 	make
 }
 
 check() {
 	cd "$srcdir/$pkgname-$pkgver"
-	make -k check
 }
 
 package() {
